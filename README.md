@@ -16,8 +16,8 @@ A modern web interface for **CVBoost AI**, an AI-powered resume analyzer designe
 
 Add or remove technologies to match your implementation.
 
-- Angular / React / Next.js
-- TypeScript / JavaScript
+- Angular
+- TypeScript
 - Tailwind CSS
 - REST API integration
 - npm
