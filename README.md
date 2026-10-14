@@ -1,59 +1,116 @@
-# AiResumeAnalyzer
+# CVBoost AI — Frontend
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.2.2.
+A modern web interface for **CVBoost AI**, an AI-powered resume analyzer designed to help job seekers evaluate their resumes and identify opportunities for improvement.
 
-## Development server
+## ✨ Features
 
-To start a local development server, run:
+- Clean and responsive user interface
+- Resume analysis workflow
+- Presentation of resume feedback and insights
+- User-friendly navigation and form interactions
+- Integration with the CVBoost AI backend API
 
-```bash
-ng serve
+> Update this list to reflect the features currently implemented in the frontend.
+
+## 🛠️ Tech Stack
+
+Add or remove technologies to match your implementation.
+
+- Angular / React / Next.js
+- TypeScript / JavaScript
+- Tailwind CSS
+- REST API integration
+- npm
+
+## 📁 Project Structure
+
+Illustrative structure — adjust it to match your application.
+
+```text
+frontend/
+├── public/
+├── src/
+│   ├── components/
+│   ├── services/
+│   ├── assets/
+│   └── ...
+├── package.json
+├── .env.example
+└── README.md
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## 🚀 Getting Started
 
-## Code scaffolding
+### Prerequisites
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+- Node.js
+- npm
+- A running CVBoost AI backend
 
-```bash
-ng generate component component-name
-```
+### Installation
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
+Clone the repository and navigate to the frontend directory.
 
 ```bash
-ng build
+git clone https://github.com/sagarpatil-17/ai-resume-analyzer.git
+cd ai-resume-analyzer/frontend
+npm install
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+### Environment Configuration
 
-## Running unit tests
+Configure the backend API URL using the environment mechanism supported by your frontend framework.
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+Example:
+
+```env
+API_BASE_URL=http://localhost:3000
+```
+
+Use the actual variable name and configuration format expected by your application. For browser-based applications, never expose private API keys or server-side secrets.
+
+### Run the Application
+
+Use the development script defined in your `package.json`. For example:
 
 ```bash
-ng test
+npm run dev
 ```
 
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
+For Angular projects, the command may instead be:
 
 ```bash
-ng e2e
+npm start
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+### Build for Production
 
-## Additional Resources
+Run the production build command configured in your project.
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+```bash
+npm run build
+```
+
+## 🔗 Backend Integration
+
+The frontend communicates with the CVBoost AI backend to submit requests and display analysis results.
+
+Make sure the backend is running and that the configured API URL and CORS settings are correct.
+
+## 🔒 Security
+
+- Do not store private API keys in frontend environment variables.
+- Validate user inputs before submission.
+- Handle API errors and loading states appropriately.
+- Follow safe file-upload practices when working with resumes.
+
+## 👨‍💻 Author
+
+**Sagar Patil**
+
+- GitHub: [@sagarpatil-17](https://github.com/sagarpatil-17)
+- Project: [CVBoost AI](https://github.com/sagarpatil-17/ai-resume-analyzer)
+
+---
+
+Part of the CVBoost AI project.
