@@ -10,11 +10,7 @@ A modern web interface for **CVBoost AI**, an AI-powered resume analyzer designe
 - User-friendly navigation and form interactions
 - Integration with the CVBoost AI backend API
 
-> Update this list to reflect the features currently implemented in the frontend.
-
 ## 🛠️ Tech Stack
-
-Add or remove technologies to match your implementation.
 
 - Angular
 - TypeScript
@@ -24,19 +20,48 @@ Add or remove technologies to match your implementation.
 
 ## 📁 Project Structure
 
-Illustrative structure — adjust it to match your application.
-
 ```text
-frontend/
-├── public/
-├── src/
-│   ├── components/
-│   ├── services/
-│   ├── assets/
-│   └── ...
-├── package.json
-├── .env.example
-└── README.md
+.
+├─ app
+│  ├─ core
+│  │  ├─ guards
+│  │  │  └─ auth.guard.ts
+│  │  ├─ interceptors
+│  │  │  └─ auth.interceptor.ts
+│  │  └─ services
+│  │     ├─ auth.service.ts
+│  │     └─ resume.service.ts
+│  ├─ features
+│  │  ├─ analyzer
+│  │  │  ├─ analyzer.css
+│  │  │  ├─ analyzer.html
+│  │  │  └─ analyzer.ts
+│  │  ├─ auth
+│  │  │  ├─ login
+│  │  │  │  ├─ login.css
+│  │  │  │  ├─ login.html
+│  │  │  │  └─ login.ts
+│  │  │  └─ register
+│  │  │     ├─ register.css
+│  │  │     ├─ register.html
+│  │  │     └─ register.ts
+│  │  ├─ history
+│  │  │  ├─ history.css
+│  │  │  ├─ history.html
+│  │  │  └─ history.ts
+│  │  └─ results
+│  │     ├─ results.css
+│  │     ├─ results.html
+│  │     └─ results.ts
+│  ├─ app.config.ts
+│  ├─ app.routes.ts
+│  └─ app.ts
+├─ environments
+│  ├─ environment.prod.ts
+│  └─ environment.ts
+├─ index.html
+├─ main.ts
+└─ styles.css
 ```
 
 ## 🚀 Getting Started
@@ -53,7 +78,7 @@ Clone the repository and navigate to the frontend directory.
 
 ```bash
 git clone https://github.com/sagarpatil-17/ai-resume-analyzer.git
-cd ai-resume-analyzer/frontend
+cd ai-resume-analyzer
 npm install
 ```
 
@@ -67,8 +92,6 @@ Example:
 API_BASE_URL=http://localhost:3000
 ```
 
-Use the actual variable name and configuration format expected by your application. For browser-based applications, never expose private API keys or server-side secrets.
-
 ### Run the Application
 
 Use the development script defined in your `package.json`. For example:
@@ -80,29 +103,14 @@ npm run dev
 For Angular projects, the command may instead be:
 
 ```bash
-npm start
+ng serve
 ```
 
 ### Build for Production
 
-Run the production build command configured in your project.
-
 ```bash
-npm run build
+ng build
 ```
-
-## 🔗 Backend Integration
-
-The frontend communicates with the CVBoost AI backend to submit requests and display analysis results.
-
-Make sure the backend is running and that the configured API URL and CORS settings are correct.
-
-## 🔒 Security
-
-- Do not store private API keys in frontend environment variables.
-- Validate user inputs before submission.
-- Handle API errors and loading states appropriately.
-- Follow safe file-upload practices when working with resumes.
 
 ## 👨‍💻 Author
 
