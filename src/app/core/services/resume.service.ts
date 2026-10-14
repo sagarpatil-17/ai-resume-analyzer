@@ -1,10 +1,12 @@
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
 export interface ResumeAnalysis {
+  id?: string;
+  analysisId: string;
   matchScore: number;
   summary: string;
   matchingSkills: string[];
@@ -13,27 +15,76 @@ export interface ResumeAnalysis {
   improvements: string[];
 }
 
+export interface AnalyzeResumeRequest {
+  resume: File;
+  jobDescription: string;
+}
+
+export interface ChatMessage {
+  id?: string;
+  role: 'USER' | 'MODEL';
+  content: string;
+  createdAt?: string;
+}
+
+export interface ChatResponse {
+  reply: string;
+  message?: string;
+  messages?: ChatMessage[];
+}
+
 @Injectable({
   providedIn: 'root',
 })
-
 export class ResumeService {
-  private readonly apiUrl = environment.apiUrl;
-
-  constructor(private http: HttpClient) {}
+  private readonly http = inject(HttpClient);
+  private readonly apiUrl = `${environment.apiUrl}/resume`;
 
   analyzeResume(
-    resume: File,
-    jobDescription: string,
+    request: AnalyzeResumeRequest,
+    guest = true,
   ): Observable<ResumeAnalysis> {
     const formData = new FormData();
 
-    formData.append('resume', resume);
-    formData.append('jobDescription', jobDescription);
+    formData.append('resume', request.resume, request.resume.name);
+    formData.append(
+      'jobDescription',
+      request.jobDescription.trim(),
+    );
 
-    return this.http.post<ResumeAnalysis>(
-      this.apiUrl,
-      formData,
+    const endpoint = guest
+      ? `${this.apiUrl}/guest/analyze`
+      : `${this.apiUrl}/analyze`;
+
+    return this.http.post<ResumeAnalysis>(endpoint, formData);
+  }
+
+  chat(
+    analysisId: string,
+    message: string,
+    guest = true,
+  ): Observable<ChatResponse> {
+    const endpoint = guest
+      ? `${this.apiUrl}/guest/chat`
+      : `${this.apiUrl}/chat`;
+
+    return this.http.post<ChatResponse>(endpoint, {
+      analysisId,
+      message: message.trim(),
+    });
+  }
+
+  getHistory(): Observable<ResumeAnalysis[]> {
+    return this.http.get<ResumeAnalysis[]>(
+      `${this.apiUrl}/history`,
+    );
+  }
+
+  getHistoryItem(
+    analysisId: string,
+  ): Observable<ResumeAnalysis> {
+    return this.http.get<ResumeAnalysis>(
+      `${this.apiUrl}/history/${analysisId}`,
     );
   }
 }

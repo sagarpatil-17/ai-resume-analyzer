@@ -1,0 +1,23 @@
+
+:host {
+  display: block;
+  min-height: 100%;
+}
+
+.upload-zone {
+  transition:
+    border-color 160ms ease,
+    background-color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.upload-zone.upload-active {
+  border-color: #7c3aed;
+  background-color: #f5f3ff;
+  box-shadow: 0 0 0 4px rgb(124 58 237 / 8%);
+}
+
+.upload-zone.upload-selected {
+  border-color: #a7f3d0;
+  background-color: #f0fdf4;
+}

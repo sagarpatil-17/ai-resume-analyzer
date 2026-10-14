@@ -1,0 +1,337 @@
+<div class="min-h-screen bg-[#f7f7fb] text-zinc-900">
+    <header class="sticky top-0 z-20 border-b border-zinc-200 bg-white/90 backdrop-blur-xl">
+        <div class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-4 sm:px-8">
+            <a routerLink="/" class="flex items-center gap-3">
+                <div
+                    class="flex h-10 w-10 items-center justify-center rounded-xl bg-violet-600 text-lg font-black text-white">
+                    R
+                </div>
+                <div>
+                    <h1 class="font-extrabold tracking-tight">CVBoost AI</h1>
+                    <p class="text-xs text-zinc-500">Resume insights</p>
+                </div>
+            </a>
+
+            <button type="button" (click)="startNewAnalysis()"
+                class="rounded-xl bg-violet-600 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-violet-700">
+                + New analysis
+            </button>
+        </div>
+    </header>
+
+    <main class="mx-auto max-w-7xl px-5 py-8 sm:px-8 sm:py-12">
+        @if (loadingHistory()) {
+        <div class="flex min-h-64 flex-col items-center justify-center gap-4">
+            <span class="h-9 w-9 animate-spin rounded-full border-4 border-violet-100 border-t-violet-600"></span>
+            <p class="text-sm text-zinc-500">Loading your saved analysis...</p>
+        </div>
+        } @else if (errorMessage()) {
+        <section class="mx-auto max-w-xl rounded-3xl border border-zinc-200 bg-white p-8 text-center shadow-sm">
+            <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-amber-50 text-amber-600">
+                <svg viewBox="0 0 24 24" class="h-7 w-7" fill="none" stroke="currentColor" stroke-width="1.8">
+                    <circle cx="12" cy="12" r="9" />
+                    <path d="M12 8v4m0 4h.01" />
+                </svg>
+            </div>
+            <h2 class="mt-5 text-xl font-extrabold">Analysis unavailable</h2>
+            <p class="mt-2 text-sm leading-6 text-zinc-600">{{ errorMessage() }}</p>
+            <button type="button" (click)="startNewAnalysis()"
+                class="mt-6 rounded-xl bg-violet-600 px-5 py-3 text-sm font-bold text-white hover:bg-violet-700">
+                Analyze another resume
+            </button>
+        </section>
+        } @else if (analysis(); as result) {
+        <!-- Page title -->
+        <section class="mb-8 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
+            <div>
+                <p class="text-xs font-bold uppercase tracking-[0.2em] text-violet-600">
+                    Analysis report
+                </p>
+                <h2 class="mt-2 text-3xl font-black tracking-tight sm:text-4xl">
+                    Your resume insights
+                </h2>
+                <p class="mt-3 max-w-2xl text-sm leading-6 text-zinc-600">
+                    See how your resume aligns with the target job and identify practical ways to improve it.
+                </p>
+            </div>
+            <span
+                class="w-fit rounded-full border border-emerald-200 bg-emerald-50 px-3 py-2 text-xs font-semibold text-emerald-700">
+                Analysis complete
+            </span>
+        </section>
+
+        <!-- Score and summary -->
+        <section class="grid gap-5 lg:grid-cols-[300px_minmax(0,1fr)]">
+            <div class="rounded-3xl bg-zinc-950 p-7 text-white shadow-sm">
+                <p class="text-sm font-medium text-zinc-400">Resume match score</p>
+
+                <div class="mx-auto mt-7 flex h-48 w-48 items-center justify-center rounded-full"
+                    [style.background]="scoreRingBackground()">
+                    <div class="flex h-40 w-40 flex-col items-center justify-center rounded-full bg-zinc-950">
+                        <span class="text-5xl font-black tracking-tight">
+                            {{ result.matchScore }}%
+                        </span>
+                        <span class="mt-2 text-xs text-zinc-400">Estimated match</span>
+                    </div>
+                </div>
+
+                <div class="mt-6 text-center">
+                    <span
+                        class="inline-flex rounded-full bg-violet-400/15 px-3 py-1.5 text-xs font-bold text-violet-200">
+                        {{ scoreLabel() }}
+                    </span>
+                    <p class="mt-3 text-sm leading-6 text-zinc-400">
+                        {{ scoreDescription() }}
+                    </p>
+                </div>
+            </div>
+
+            <div class="rounded-3xl border border-zinc-200 bg-white p-6 shadow-sm sm:p-8">
+                <div class="flex items-center gap-3">
+                    <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-violet-100 text-violet-700">
+                        <svg viewBox="0 0 24 24" class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="1.8">
+                            <path d="M12 3v18M3 12h18" />
+                            <circle cx="12" cy="12" r="8" />
+                        </svg>
+                    </div>
+                    <div>
+                        <p class="text-xs font-semibold uppercase tracking-wider text-zinc-400">Overview</p>
+                        <h3 class="text-lg font-extrabold">Executive summary</h3>
+                    </div>
+                </div>
+
+                <p class="mt-5 text-sm leading-7 text-zinc-600">
+                    {{ result.summary }}
+                </p>
+
+                <div class="mt-7 grid gap-4 sm:grid-cols-2">
+                    <div class="rounded-2xl bg-emerald-50 p-4">
+                        <p class="text-2xl font-black text-emerald-700">
+                            {{ result.matchingSkills.length }}
+                        </p>
+                        <p class="mt-1 text-sm font-semibold text-emerald-800">Matching skills</p>
+                    </div>
+                    <div class="rounded-2xl bg-amber-50 p-4">
+                        <p class="text-2xl font-black text-amber-700">
+                            {{ result.missingSkills.length }}
+                        </p>
+                        <p class="mt-1 text-sm font-semibold text-amber-800">Potential skill gaps</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills -->
+        <section class="mt-6 grid gap-5 md:grid-cols-2">
+            <div class="rounded-3xl border border-zinc-200 bg-white p-6 shadow-sm sm:p-7">
+                <div class="flex items-center justify-between gap-3">
+                    <h3 class="text-lg font-extrabold">Matching skills</h3>
+                    <span class="rounded-full bg-emerald-100 px-3 py-1 text-xs font-bold text-emerald-700">
+                        {{ result.matchingSkills.length }}
+                    </span>
+                </div>
+                <p class="mt-2 text-sm text-zinc-500">
+                    Skills identified in your resume that align with the role.
+                </p>
+
+                <div class="mt-5 flex flex-wrap gap-2">
+                    @for (skill of result.matchingSkills; track skill) {
+                    <span
+                        class="rounded-xl border border-emerald-200 bg-emerald-50 px-3 py-2 text-xs font-semibold text-emerald-800">
+                        ✓ {{ skill }}
+                    </span>
+                    } @empty {
+                    <p class="text-sm text-zinc-500">No matching skills were identified.</p>
+                    }
+                </div>
+            </div>
+
+            <div class="rounded-3xl border border-zinc-200 bg-white p-6 shadow-sm sm:p-7">
+                <div class="flex items-center justify-between gap-3">
+                    <h3 class="text-lg font-extrabold">Potential skill gaps</h3>
+                    <span class="rounded-full bg-amber-100 px-3 py-1 text-xs font-bold text-amber-700">
+                        {{ result.missingSkills.length }}
+                    </span>
+                </div>
+                <p class="mt-2 text-sm text-zinc-500">
+                    Requirements you may need to demonstrate more clearly or develop.
+                </p>
+
+                <div class="mt-5 flex flex-wrap gap-2">
+                    @for (skill of result.missingSkills; track skill) {
+                    <span
+                        class="rounded-xl border border-amber-200 bg-amber-50 px-3 py-2 text-xs font-semibold text-amber-800">
+                        {{ skill }}
+                    </span>
+                    } @empty {
+                    <p class="text-sm text-zinc-500">No potential gaps were identified.</p>
+                    }
+                </div>
+            </div>
+        </section>
+
+        <!-- Strengths and improvements -->
+        <section class="mt-6 grid gap-5 lg:grid-cols-2">
+            <div class="rounded-3xl border border-zinc-200 bg-white p-6 shadow-sm sm:p-7">
+                <div class="flex items-center gap-3">
+                    <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-100 text-emerald-700">✓
+                    </div>
+                    <h3 class="text-lg font-extrabold">Your strengths</h3>
+                </div>
+
+                <ul class="mt-5 space-y-4">
+                    @for (item of result.strengths; track item) {
+                    <li class="flex items-start gap-3 text-sm leading-6 text-zinc-700">
+                        <span class="mt-2 h-2 w-2 shrink-0 rounded-full bg-emerald-500"></span>
+                        {{ item }}
+                    </li>
+                    } @empty {
+                    <li class="text-sm text-zinc-500">No strengths were returned.</li>
+                    }
+                </ul>
+            </div>
+
+            <div class="rounded-3xl border border-zinc-200 bg-white p-6 shadow-sm sm:p-7">
+                <div class="flex items-center gap-3">
+                    <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-violet-100 text-violet-700">↗
+                    </div>
+                    <h3 class="text-lg font-extrabold">Recommended improvements</h3>
+                </div>
+
+                <ul class="mt-5 space-y-4">
+                    @for (item of result.improvements; track item; let i = $index) {
+                    <li class="flex items-start gap-3 text-sm leading-6 text-zinc-700">
+                        <span
+                            class="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-violet-100 text-xs font-bold text-violet-700">
+                            {{ i + 1 }}
+                        </span>
+                        {{ item }}
+                    </li>
+                    } @empty {
+                    <li class="text-sm text-zinc-500">No recommendations were returned.</li>
+                    }
+                </ul>
+            </div>
+        </section>
+
+        <!-- AI assistant -->
+        <section id="ai-assistant" class="mt-8 grid gap-5 lg:grid-cols-[minmax(0,1fr)_300px]">
+            <div class="overflow-hidden rounded-3xl border border-zinc-200 bg-white shadow-sm">
+                <div class="flex items-center gap-3 border-b border-zinc-200 p-5 sm:p-6">
+                    <div class="flex h-11 w-11 items-center justify-center rounded-2xl bg-violet-600 text-white">
+                        <svg viewBox="0 0 24 24" class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="1.8">
+                            <path d="M12 3v3m0 12v3M3 12h3m12 0h3" />
+                            <path d="m7 7 2 2m6 6 2 2m0-10-2 2m-6 6-2 2" />
+                            <circle cx="12" cy="12" r="5" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="font-extrabold">AI career assistant</h3>
+                        <p class="mt-1 text-xs text-zinc-500">Ask about your resume and results</p>
+                    </div>
+                    <span class="ml-auto h-2.5 w-2.5 rounded-full bg-emerald-500"></span>
+                </div>
+
+                <div class="chat-messages space-y-4 p-5 sm:p-6" aria-live="polite">
+                    @for (message of messages(); track trackMessage($index, message)) {
+                    <div class="flex" [class.justify-end]="message.role === 'USER'">
+                        <div class="max-w-[90%] rounded-2xl px-4 py-3 sm:max-w-[80%]"
+                            [class.rounded-br-md]="message.role === 'USER'"
+                            [class.bg-violet-600]="message.role === 'USER'" [class.text-white]="message.role === 'USER'"
+                            [class.rounded-bl-md]="message.role === 'MODEL'"
+                            [class.bg-zinc-100]="message.role === 'MODEL'"
+                            [class.text-zinc-800]="message.role === 'MODEL'">
+                            <p class="whitespace-pre-wrap text-sm leading-6">{{ message.content }}</p>
+                        </div>
+                    </div>
+                    }
+
+                    @if (sendingMessage()) {
+                    <div class="flex">
+                        <div class="flex items-center gap-2 rounded-2xl bg-zinc-100 px-4 py-3 text-sm text-zinc-500">
+                            <span class="h-2 w-2 animate-bounce rounded-full bg-violet-500"></span>
+                            <span
+                                class="h-2 w-2 animate-bounce rounded-full bg-violet-500 [animation-delay:120ms]"></span>
+                            <span
+                                class="h-2 w-2 animate-bounce rounded-full bg-violet-500 [animation-delay:240ms]"></span>
+                            AI is thinking
+                        </div>
+                    </div>
+                    }
+                </div>
+
+                @if (chatError()) {
+                <div role="alert"
+                    class="mx-5 mb-3 rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-700 sm:mx-6">
+                    {{ chatError() }}
+                </div>
+                }
+
+                <form class="border-t border-zinc-200 p-4 sm:p-5" (ngSubmit)="sendMessage()">
+                    <div
+                        class="flex items-end gap-3 rounded-2xl border border-zinc-200 bg-zinc-50 p-2 focus-within:border-violet-400 focus-within:ring-4 focus-within:ring-violet-100">
+                        <textarea [formControl]="chatControl" rows="2" maxlength="4000"
+                            placeholder="Ask how to improve your resume..."
+                            class="max-h-36 min-h-12 flex-1 resize-y bg-transparent px-2 py-2 text-sm leading-6 outline-none placeholder:text-zinc-400"></textarea>
+
+                        <button type="submit" [disabled]="sendingMessage() || !chatControl.value.trim()"
+                            class="mb-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-violet-600 text-white transition hover:bg-violet-700 disabled:cursor-not-allowed disabled:opacity-50"
+                            aria-label="Send message">
+                            <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="m22 2-7 20-4-9-9-4Z" />
+                                <path d="M22 2 11 13" />
+                            </svg>
+                        </button>
+                    </div>
+                    <p class="mt-2 text-right text-xs text-zinc-400">
+                        {{ chatControl.value.length }} / 4,000
+                    </p>
+                </form>
+            </div>
+
+            <aside class="rounded-3xl border border-zinc-200 bg-white p-5 shadow-sm sm:p-6">
+                <h3 class="font-extrabold">Try asking</h3>
+                <p class="mt-2 text-sm leading-6 text-zinc-500">
+                    Start with one of these questions.
+                </p>
+
+                <div class="mt-5 space-y-3">
+                    <button type="button" (click)="useSuggestion('How can I improve my resume for this job?')"
+                        [disabled]="sendingMessage()"
+                        class="suggestion-card w-full rounded-2xl border border-zinc-200 p-4 text-left text-sm font-medium leading-6 text-zinc-700 transition hover:border-violet-300 hover:bg-violet-50 disabled:opacity-50">
+                        How can I improve my resume for this job?
+                        <span class="mt-2 block text-lg text-violet-600">↗</span>
+                    </button>
+
+                    <button type="button" (click)="useSuggestion('Help me rewrite my resume summary for this role.')"
+                        [disabled]="sendingMessage()"
+                        class="suggestion-card w-full rounded-2xl border border-zinc-200 p-4 text-left text-sm font-medium leading-6 text-zinc-700 transition hover:border-violet-300 hover:bg-violet-50 disabled:opacity-50">
+                        Rewrite my professional summary
+                        <span class="mt-2 block text-lg text-violet-600">↗</span>
+                    </button>
+
+                    <button type="button"
+                        (click)="useSuggestion('Which missing skills should I prioritize for this role?')"
+                        [disabled]="sendingMessage()"
+                        class="suggestion-card w-full rounded-2xl border border-zinc-200 p-4 text-left text-sm font-medium leading-6 text-zinc-700 transition hover:border-violet-300 hover:bg-violet-50 disabled:opacity-50">
+                        Which skills should I prioritize?
+                        <span class="mt-2 block text-lg text-violet-600">↗</span>
+                    </button>
+                </div>
+
+                <div class="mt-5 rounded-2xl bg-violet-50 p-4">
+                    <p class="text-xs font-bold text-violet-800">Tip</p>
+                    <p class="mt-1 text-xs leading-5 text-violet-700">
+                        Ask the assistant to improve a specific bullet point for more focused feedback.
+                    </p>
+                </div>
+            </aside>
+        </section>
+
+        <p class="mt-8 text-center text-xs leading-5 text-zinc-500">
+            AI-generated insights may be inaccurate. Verify suggestions and only include truthful information in your
+            resume.
+        </p>
+        }
+    </main>
+</div>
