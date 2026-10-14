@@ -93,12 +93,6 @@ API_BASE_URL=http://localhost:3000
 
 ### Run the Application
 
-Use the development script defined in your `package.json`. For example:
-
-```bash
-npm run dev
-```
-
 For Angular projects, the command may instead be:
 
 ```bash
