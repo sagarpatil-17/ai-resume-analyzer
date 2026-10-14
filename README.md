@@ -81,16 +81,6 @@ cd ai-resume-analyzer
 npm install
 ```
 
-### Environment Configuration
-
-Configure the backend API URL using the environment mechanism supported by your frontend framework.
-
-Example:
-
-```env
-API_BASE_URL=http://localhost:3000
-```
-
 ### Run the Application
 
 For Angular projects, the command may instead be:
