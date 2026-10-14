@@ -21,7 +21,6 @@ A modern web interface for **CVBoost AI**, an AI-powered resume analyzer designe
 ## 📁 Project Structure
 
 ```text
-.
 ├─ app
 │  ├─ core
 │  │  ├─ guards
