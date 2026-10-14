@@ -1,0 +1,124 @@
+
+<div class="min-h-screen bg-[#f7f7fb] px-5 py-10 flex items-center justify-center">
+  <div class="grid w-full max-w-5xl overflow-hidden rounded-3xl bg-white shadow-xl lg:grid-cols-2">
+
+    <section class="hidden flex-col justify-between bg-[#171522] p-10 text-white lg:flex">
+      <a routerLink="/" class="text-2xl font-bold tracking-tight">
+        Resume<span class="text-violet-400">IQ</span>
+      </a>
+
+      <div>
+        <div class="mb-5 inline-flex rounded-full border border-white/15 px-4 py-2 text-sm text-violet-200">
+          AI-powered resume analysis
+        </div>
+
+        <h1 class="text-4xl font-bold leading-tight">
+          Your next career move starts here.
+        </h1>
+
+        <p class="mt-5 leading-7 text-gray-300">
+          Compare your resume with job descriptions, discover skill gaps,
+          and get actionable suggestions to improve your application.
+        </p>
+      </div>
+
+      <p class="text-sm text-gray-400">
+        Make every application count.
+      </p>
+    </section>
+
+    <section class="flex items-center justify-center p-7 sm:p-12">
+      <div class="w-full max-w-md">
+
+        <a routerLink="/" class="text-xl font-bold text-gray-900 lg:hidden">
+          Resume<span class="text-violet-600">IQ</span>
+        </a>
+
+        <div class="mt-8 lg:mt-0">
+          <p class="text-sm font-semibold uppercase tracking-widest text-violet-600">
+            Welcome back
+          </p>
+
+          <h2 class="mt-3 text-3xl font-bold text-gray-900">
+            Sign in to CVBoost AI
+          </h2>
+
+          <p class="mt-3 text-sm leading-6 text-gray-500">
+            Sign in to access your saved resume analyses and AI chat history.
+          </p>
+        </div>
+
+        @if (errorMessage()) {
+          <div role="alert" class="mt-6 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+            {{ errorMessage() }}
+          </div>
+        }
+
+        <form [formGroup]="form" (ngSubmit)="submit()" class="mt-8 space-y-5">
+
+          <div>
+            <label for="email" class="mb-2 block text-sm font-medium text-gray-700">
+              Email address
+            </label>
+
+            <input
+              id="email"
+              type="email"
+              formControlName="email"
+              autocomplete="email"
+              placeholder="you@example.com"
+              class="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 outline-none transition focus:border-violet-500 focus:ring-4 focus:ring-violet-100"
+            />
+
+            @if (form.controls.email.touched && form.controls.email.invalid) {
+              <p class="mt-2 text-sm text-red-600">
+                Enter a valid email address.
+              </p>
+            }
+          </div>
+
+          <div>
+            <label for="password" class="mb-2 block text-sm font-medium text-gray-700">
+              Password
+            </label>
+
+            <input
+              id="password"
+              type="password"
+              formControlName="password"
+              autocomplete="current-password"
+              placeholder="Enter your password"
+              class="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 outline-none transition focus:border-violet-500 focus:ring-4 focus:ring-violet-100"
+            />
+
+            @if (form.controls.password.touched && form.controls.password.invalid) {
+              <p class="mt-2 text-sm text-red-600">
+                Password is required.
+              </p>
+            }
+          </div>
+
+          <button
+            type="submit"
+            [disabled]="loading()"
+            class="flex w-full items-center justify-center rounded-xl bg-violet-600 px-4 py-3.5 font-semibold text-white transition hover:bg-violet-700 disabled:cursor-not-allowed disabled:opacity-60"
+          >
+            {{ loading() ? 'Signing in...' : 'Sign in' }}
+          </button>
+        </form>
+
+        <p class="mt-7 text-center text-sm text-gray-500">
+          Don't have an account?
+          <a routerLink="/register" class="font-semibold text-violet-600 hover:text-violet-700">
+            Create account
+          </a>
+        </p>
+
+        <a routerLink="/" class="mt-6 block text-center text-sm text-gray-500 hover:text-violet-600">
+          ← Back to resume analyzer
+        </a>
+
+      </div>
+    </section>
+  </div>
+</div>

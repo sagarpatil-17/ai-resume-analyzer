@@ -1,0 +1,33 @@
+
+:host {
+  display: block;
+  min-height: 100%;
+}
+
+.chat-messages {
+  min-height: 230px;
+  max-height: 460px;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+}
+
+.suggestion-card {
+  transition:
+    border-color 160ms ease,
+    background-color 160ms ease,
+    transform 160ms ease;
+}
+
+.suggestion-card:hover {
+  transform: translateY(-1px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chat-messages {
+    scroll-behavior: auto;
+  }
+
+  .suggestion-card {
+    transition: none;
+  }
+}

@@ -1,0 +1,157 @@
+
+<div class="min-h-screen bg-[#f7f7fb] px-5 py-10 flex items-center justify-center">
+  <div class="grid w-full max-w-5xl overflow-hidden rounded-3xl bg-white shadow-xl lg:grid-cols-2">
+
+    <section class="hidden flex-col justify-between bg-[#171522] p-10 text-white lg:flex">
+      <a routerLink="/" class="text-2xl font-bold tracking-tight">
+        Resume<span class="text-violet-400">IQ</span>
+      </a>
+
+      <div>
+        <p class="mb-5 inline-flex rounded-full border border-white/15 px-4 py-2 text-sm text-violet-200">
+          Your career toolkit
+        </p>
+
+        <h1 class="text-4xl font-bold leading-tight">
+          Build a stronger resume. Apply with confidence.
+        </h1>
+
+        <p class="mt-5 leading-7 text-gray-300">
+          Get resume insights, identify missing skills, and prepare for the
+          opportunities that match your experience.
+        </p>
+      </div>
+
+      <p class="text-sm text-gray-400">
+        Your next opportunity begins with a better application.
+      </p>
+    </section>
+
+    <section class="flex items-center justify-center p-7 sm:p-12">
+      <div class="w-full max-w-md">
+
+        <a routerLink="/" class="text-xl font-bold text-gray-900 lg:hidden">
+          Resume<span class="text-violet-600">IQ</span>
+        </a>
+
+        <div class="mt-8 lg:mt-0">
+          <p class="text-sm font-semibold uppercase tracking-widest text-violet-600">
+            Get started
+          </p>
+
+          <h2 class="mt-3 text-3xl font-bold text-gray-900">
+            Create your account
+          </h2>
+
+          <p class="mt-3 text-sm leading-6 text-gray-500">
+            Save your resume analyses and revisit your career insights anytime.
+          </p>
+        </div>
+
+        @if (errorMessage()) {
+          <div role="alert" class="mt-5 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+            {{ errorMessage() }}
+          </div>
+        }
+
+        @if (successMessage()) {
+          <div role="status" class="mt-5 rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-700">
+            {{ successMessage() }}
+            <a routerLink="/login" class="ml-1 font-semibold underline">Sign in</a>
+          </div>
+        }
+
+        <form [formGroup]="form" (ngSubmit)="submit()" class="mt-7 space-y-4">
+
+          <div>
+            <label for="name" class="mb-2 block text-sm font-medium text-gray-700">
+              Full name
+            </label>
+            <input
+              id="name"
+              type="text"
+              formControlName="name"
+              autocomplete="name"
+              placeholder="Your full name"
+              class="w-full rounded-xl border border-gray-200 px-4 py-3 outline-none transition focus:border-violet-500 focus:ring-4 focus:ring-violet-100"
+            />
+            @if (form.controls.name.touched && form.controls.name.invalid) {
+              <p class="mt-1 text-sm text-red-600">Enter a name between 2 and 100 characters.</p>
+            }
+          </div>
+
+          <div>
+            <label for="email" class="mb-2 block text-sm font-medium text-gray-700">
+              Email address
+            </label>
+            <input
+              id="email"
+              type="email"
+              formControlName="email"
+              autocomplete="email"
+              placeholder="you@example.com"
+              class="w-full rounded-xl border border-gray-200 px-4 py-3 outline-none transition focus:border-violet-500 focus:ring-4 focus:ring-violet-100"
+            />
+            @if (form.controls.email.touched && form.controls.email.invalid) {
+              <p class="mt-1 text-sm text-red-600">Enter a valid email address.</p>
+            }
+          </div>
+
+          <div>
+            <label for="password" class="mb-2 block text-sm font-medium text-gray-700">
+              Password
+            </label>
+            <input
+              id="password"
+              type="password"
+              formControlName="password"
+              autocomplete="new-password"
+              placeholder="At least 8 characters"
+              class="w-full rounded-xl border border-gray-200 px-4 py-3 outline-none transition focus:border-violet-500 focus:ring-4 focus:ring-violet-100"
+            />
+            @if (form.controls.password.touched && form.controls.password.invalid) {
+              <p class="mt-1 text-sm text-red-600">Password must contain at least 8 characters.</p>
+            }
+          </div>
+
+          <div>
+            <label for="confirmPassword" class="mb-2 block text-sm font-medium text-gray-700">
+              Confirm password
+            </label>
+            <input
+              id="confirmPassword"
+              type="password"
+              formControlName="confirmPassword"
+              autocomplete="new-password"
+              placeholder="Re-enter your password"
+              class="w-full rounded-xl border border-gray-200 px-4 py-3 outline-none transition focus:border-violet-500 focus:ring-4 focus:ring-violet-100"
+            />
+            @if (form.controls.confirmPassword.touched && form.controls.confirmPassword.invalid) {
+              <p class="mt-1 text-sm text-red-600">Please confirm your password.</p>
+            }
+          </div>
+
+          <button
+            type="submit"
+            [disabled]="loading() || !!successMessage()"
+            class="flex w-full items-center justify-center rounded-xl bg-violet-600 px-4 py-3.5 font-semibold text-white transition hover:bg-violet-700 disabled:cursor-not-allowed disabled:opacity-60"
+          >
+            {{ loading() ? 'Creating account...' : 'Create account' }}
+          </button>
+        </form>
+
+        <p class="mt-6 text-center text-sm text-gray-500">
+          Already have an account?
+          <a routerLink="/login" class="font-semibold text-violet-600 hover:text-violet-700">
+            Sign in
+          </a>
+        </p>
+
+        <a routerLink="/" class="mt-5 block text-center text-sm text-gray-500 hover:text-violet-600">
+          ← Back to resume analyzer
+        </a>
+
+      </div>
+    </section>
+  </div>
+</div>
