@@ -8,10 +8,11 @@ import {
   ResumeService,
 } from '../../core/services/resume.service';
 import { AuthService } from '../../core/services/auth.service';
+import { Header } from '../../shared/components/header/header';
 
 @Component({
   selector: 'app-history',
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, Header],
   templateUrl: './history.html',
   styleUrl: './history.css',
 })

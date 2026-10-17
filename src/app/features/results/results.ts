@@ -6,7 +6,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { finalize } from 'rxjs';
 import {
   ChatMessage,
@@ -14,10 +14,11 @@ import {
   ResumeAnalysis,
   ResumeService,
 } from '../../core/services/resume.service';
+import { Header } from '../../shared/components/header/header';
 
 @Component({
   selector: 'app-results',
-  imports: [CommonModule, ReactiveFormsModule, RouterLink],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule, Header],
   templateUrl: './results.html',
   styleUrl: './results.css',
 })
@@ -128,12 +129,28 @@ export class Results {
     const message = (suggestion ?? this.chatControl.value).trim();
     const analysis = this.analysis();
 
-    if (!analysis || !message || this.sendingMessage()) {
+    if (this.sendingMessage() || !message) {
       return;
     }
 
     if (message.length > 4000) {
       this.chatError.set('Your message cannot exceed 4,000 characters.');
+      return;
+    }
+
+    if (!analysis) {
+      this.chatError.set(
+        'Resume analysis not found. Please analyze your resume again.',
+      );
+      return;
+    }
+
+    const analysisId = analysis.analysisId || analysis.id;
+
+    if (!analysisId) {
+      this.chatError.set(
+        'Analysis ID is missing. Please analyze your resume again.',
+      );
       return;
     }
 
@@ -148,7 +165,7 @@ export class Results {
     this.chatControl.setValue('');
 
     this.resumeService
-      .chat(analysis.analysisId || analysis.id || '', message, true)
+      .chat(analysisId, message)
       .pipe(finalize(() => this.sendingMessage.set(false)))
       .subscribe({
         next: (response: ChatResponse) => {
@@ -175,17 +192,26 @@ export class Results {
           ]);
         },
         error: (error) => {
-          const message = error?.error?.message;
+          const errorMessage = error?.error?.message;
 
           this.chatError.set(
-            Array.isArray(message)
-              ? message.join(' ')
-              : typeof message === 'string'
-                ? message
+            Array.isArray(errorMessage)
+              ? errorMessage.join(' ')
+              : typeof errorMessage === 'string'
+                ? errorMessage
                 : 'Unable to get an AI response. Please try again.',
           );
         },
       });
+  }
+
+  onChatSubmit(event: SubmitEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+
+    console.log('Chat form submitted');
+
+    this.sendMessage();
   }
 
   useSuggestion(question: string): void {

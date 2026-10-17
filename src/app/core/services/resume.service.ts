@@ -3,6 +3,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
+import { AuthService } from './auth.service';
 
 export interface ResumeAnalysis {
   id?: string;
@@ -38,6 +39,7 @@ export interface ChatResponse {
 })
 export class ResumeService {
   private readonly http = inject(HttpClient);
+  private readonly authService = inject(AuthService);
   private readonly apiUrl = `${environment.apiUrl}/resume`;
 
   analyzeResume(
@@ -62,11 +64,16 @@ export class ResumeService {
   chat(
     analysisId: string,
     message: string,
-    guest = true,
   ): Observable<ChatResponse> {
-    const endpoint = guest
-      ? `${this.apiUrl}/guest/chat`
-      : `${this.apiUrl}/chat`;
+    const loggedIn = this.authService.isLoggedIn();
+
+    const endpoint = loggedIn
+      ? `${this.apiUrl}/chat`
+      : `${this.apiUrl}/guest/chat`;
+
+    console.log('Logged in:', loggedIn);
+    console.log('Analysis ID:', analysisId);
+    console.log('Chat endpoint:', endpoint);
 
     return this.http.post<ChatResponse>(endpoint, {
       analysisId,
