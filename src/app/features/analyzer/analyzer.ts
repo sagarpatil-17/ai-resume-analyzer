@@ -15,10 +15,11 @@ import { Router, RouterModule } from '@angular/router';
 import { finalize } from 'rxjs';
 import { ResumeService } from '../../core/services/resume.service';
 import { AuthService } from '../../core/services/auth.service';
+import { Header } from '../../shared/components/header/header';
 
 @Component({
   selector: 'app-analyzer',
-  imports: [CommonModule, ReactiveFormsModule, RouterModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule, Header],
   templateUrl: './analyzer.html',
   styleUrl: './analyzer.css',
 })

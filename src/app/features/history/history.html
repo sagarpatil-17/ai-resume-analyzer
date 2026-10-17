@@ -1,24 +1,6 @@
-
 <div class="min-h-screen bg-[#f7f7fb] text-gray-900">
-  <header class="border-b border-gray-200 bg-white">
-    <div class="mx-auto flex max-w-7xl items-center justify-between px-5 py-5 sm:px-8">
-      <a routerLink="/" class="text-2xl font-bold tracking-tight">
-        Resume<span class="text-violet-600">IQ</span>
-      </a>
-
-      <div class="flex items-center gap-3">
-        <span class="hidden text-sm text-gray-500 sm:inline">
-          {{ user()?.name || 'Your account' }}
-        </span>
-        <a
-          routerLink="/"
-          class="rounded-xl bg-violet-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-violet-700"
-        >
-          + New analysis
-        </a>
-      </div>
-    </div>
-  </header>
+  <!-- Header -->
+  <app-header />
 
   <main class="mx-auto max-w-7xl px-5 py-10 sm:px-8">
     <div class="flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
@@ -42,146 +24,124 @@
 
     <div class="mt-8">
       <div class="relative max-w-xl">
-        <input
-          type="search"
-          aria-label="Search analyses"
-          placeholder="Search summaries or skills..."
-          [value]="searchTerm()"
-          (input)="searchTerm.set($any($event.target).value)"
-          class="w-full rounded-2xl border border-gray-200 bg-white px-5 py-4 outline-none transition placeholder:text-gray-400 focus:border-violet-500 focus:ring-4 focus:ring-violet-100"
-        />
+        <input type="search" aria-label="Search analyses" placeholder="Search summaries or skills..."
+          [value]="searchTerm()" (input)="searchTerm.set($any($event.target).value)"
+          class="w-full rounded-2xl border border-gray-200 bg-white px-5 py-4 outline-none transition placeholder:text-gray-400 focus:border-violet-500 focus:ring-4 focus:ring-violet-100" />
       </div>
     </div>
 
     @if (errorMessage()) {
-      <div role="alert" class="mt-6 flex flex-col gap-3 rounded-2xl border border-red-200 bg-red-50 p-5 text-red-700 sm:flex-row sm:items-center sm:justify-between">
-        <p>{{ errorMessage() }}</p>
-        <button
-          type="button"
-          (click)="loadHistory()"
-          class="font-semibold underline"
-        >
-          Try again
-        </button>
-      </div>
+    <div role="alert"
+      class="mt-6 flex flex-col gap-3 rounded-2xl border border-red-200 bg-red-50 p-5 text-red-700 sm:flex-row sm:items-center sm:justify-between">
+      <p>{{ errorMessage() }}</p>
+      <button type="button" (click)="loadHistory()" class="font-semibold underline">
+        Try again
+      </button>
+    </div>
     }
 
     @if (loading()) {
-      <div class="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-        @for (item of [1, 2, 3]; track item) {
-          <div class="animate-pulse rounded-2xl border border-gray-200 bg-white p-6">
-            <div class="h-4 w-32 rounded bg-gray-200"></div>
-            <div class="mt-5 h-8 w-20 rounded bg-gray-200"></div>
-            <div class="mt-5 h-3 w-full rounded bg-gray-100"></div>
-            <div class="mt-2 h-3 w-4/5 rounded bg-gray-100"></div>
-            <div class="mt-7 h-10 rounded-xl bg-gray-100"></div>
-          </div>
-        }
+    <div class="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+      @for (item of [1, 2, 3]; track item) {
+      <div class="animate-pulse rounded-2xl border border-gray-200 bg-white p-6">
+        <div class="h-4 w-32 rounded bg-gray-200"></div>
+        <div class="mt-5 h-8 w-20 rounded bg-gray-200"></div>
+        <div class="mt-5 h-3 w-full rounded bg-gray-100"></div>
+        <div class="mt-2 h-3 w-4/5 rounded bg-gray-100"></div>
+        <div class="mt-7 h-10 rounded-xl bg-gray-100"></div>
       </div>
+      }
+    </div>
     } @else if (analyses().length === 0 && !errorMessage()) {
-      <div class="mt-10 rounded-3xl border border-dashed border-gray-300 bg-white px-6 py-16 text-center">
-        <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-violet-50 text-violet-600">
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="1.7"
-            class="h-8 w-8"
-            aria-hidden="true"
-          >
-            <path d="M8 3h7l5 5v13H8a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z" />
-            <path d="M15 3v6h5M10 13h6M10 17h6" />
-          </svg>
-        </div>
-        <h2 class="mt-5 text-xl font-bold">No analyses yet</h2>
-        <p class="mx-auto mt-2 max-w-md text-sm leading-6 text-gray-500">
-          Upload your resume and compare it with a job description.
-          Your saved results will appear here.
-        </p>
-        <a
-          routerLink="/"
-          class="mt-6 inline-flex rounded-xl bg-violet-600 px-5 py-3 font-semibold text-white hover:bg-violet-700"
-        >
-          Analyze my resume
-        </a>
+    <div class="mt-10 rounded-3xl border border-dashed border-gray-300 bg-white px-6 py-16 text-center">
+      <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-violet-50 text-violet-600">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" class="h-8 w-8"
+          aria-hidden="true">
+          <path d="M8 3h7l5 5v13H8a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z" />
+          <path d="M15 3v6h5M10 13h6M10 17h6" />
+        </svg>
       </div>
+      <h2 class="mt-5 text-xl font-bold">No analyses yet</h2>
+      <p class="mx-auto mt-2 max-w-md text-sm leading-6 text-gray-500">
+        Upload your resume and compare it with a job description.
+        Your saved results will appear here.
+      </p>
+      <a routerLink="/"
+        class="mt-6 inline-flex rounded-xl bg-violet-600 px-5 py-3 font-semibold text-white hover:bg-violet-700">
+        Analyze my resume
+      </a>
+    </div>
     } @else if (filteredAnalyses().length === 0 && !errorMessage()) {
-      <div class="mt-8 rounded-2xl border border-gray-200 bg-white p-10 text-center">
-        <h2 class="font-semibold">No matching analyses</h2>
-        <p class="mt-2 text-sm text-gray-500">
-          Try a different search term.
-        </p>
-      </div>
+    <div class="mt-8 rounded-2xl border border-gray-200 bg-white p-10 text-center">
+      <h2 class="font-semibold">No matching analyses</h2>
+      <p class="mt-2 text-sm text-gray-500">
+        Try a different search term.
+      </p>
+    </div>
     } @else if (!loading()) {
-      <div class="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-        @for (analysis of filteredAnalyses(); track trackByAnalysis($index, analysis)) {
-          <article class="flex flex-col rounded-2xl border border-gray-200 bg-white p-6 transition hover:-translate-y-1 hover:border-violet-200 hover:shadow-lg">
-            <div class="flex items-start justify-between gap-4">
-              <div>
-                <p class="text-xs font-semibold uppercase tracking-wider text-gray-400">
-                  Resume match
-                </p>
-                <h2 class="mt-2 text-3xl font-bold text-gray-900">
-                  {{ analysis.matchScore }}<span class="text-lg text-gray-400">/100</span>
-                </h2>
-              </div>
-
-              <span
-                class="rounded-xl px-3 py-2 text-sm font-bold"
-                [class.bg-green-50]="analysis.matchScore >= 75"
-                [class.text-green-700]="analysis.matchScore >= 75"
-                [class.bg-amber-50]="analysis.matchScore >= 50 && analysis.matchScore < 75"
-                [class.text-amber-700]="analysis.matchScore >= 50 && analysis.matchScore < 75"
-                [class.bg-red-50]="analysis.matchScore < 50"
-                [class.text-red-700]="analysis.matchScore < 50"
-              >
-                @if (analysis.matchScore >= 75) {
-                  Strong match
-                } @else if (analysis.matchScore >= 50) {
-                  Moderate match
-                } @else {
-                  Needs work
-                }
-              </span>
-            </div>
-
-            <p class="mt-5 line-clamp-4 text-sm leading-6 text-gray-600">
-              {{ analysis.summary || 'Resume analysis completed.' }}
+    <div class="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+      @for (analysis of filteredAnalyses(); track trackByAnalysis($index, analysis)) {
+      <article
+        class="flex flex-col rounded-2xl border border-gray-200 bg-white p-6 transition hover:-translate-y-1 hover:border-violet-200 hover:shadow-lg">
+        <div class="flex items-start justify-between gap-4">
+          <div>
+            <p class="text-xs font-semibold uppercase tracking-wider text-gray-400">
+              Resume match
             </p>
+            <h2 class="mt-2 text-3xl font-bold text-gray-900">
+              {{ analysis.matchScore }}<span class="text-lg text-gray-400">/100</span>
+            </h2>
+          </div>
 
-            <div class="mt-5">
-              <p class="text-xs font-semibold uppercase tracking-wider text-gray-400">
-                Matching skills
-              </p>
-              <div class="mt-3 flex flex-wrap gap-2">
-                @for (skill of (analysis.matchingSkills || []).slice(0, 4); track skill) {
-                  <span class="rounded-lg bg-violet-50 px-2.5 py-1.5 text-xs font-medium text-violet-700">
-                    {{ skill }}
-                  </span>
-                }
-                @if ((analysis.matchingSkills || []).length === 0) {
-                  <span class="text-sm text-gray-400">No matching skills listed</span>
-                }
-                @if ((analysis.matchingSkills || []).length > 4) {
-                  <span class="rounded-lg bg-gray-100 px-2.5 py-1.5 text-xs text-gray-600">
-                    +{{ analysis.matchingSkills.length - 4 }} more
-                  </span>
-                }
-              </div>
-            </div>
+          <span class="rounded-xl px-3 py-2 text-sm font-bold" [class.bg-green-50]="analysis.matchScore >= 75"
+            [class.text-green-700]="analysis.matchScore >= 75"
+            [class.bg-amber-50]="analysis.matchScore >= 50 && analysis.matchScore < 75"
+            [class.text-amber-700]="analysis.matchScore >= 50 && analysis.matchScore < 75"
+            [class.bg-red-50]="analysis.matchScore < 50" [class.text-red-700]="analysis.matchScore < 50">
+            @if (analysis.matchScore >= 75) {
+            Strong match
+            } @else if (analysis.matchScore >= 50) {
+            Moderate match
+            } @else {
+            Needs work
+            }
+          </span>
+        </div>
 
-            <div class="mt-auto pt-6">
-              <button
-                type="button"
-                (click)="openAnalysis(analysis)"
-                class="w-full rounded-xl border border-gray-200 px-4 py-3 font-semibold text-gray-700 transition hover:border-violet-600 hover:bg-violet-50 hover:text-violet-700"
-              >
-                View analysis →
-              </button>
-            </div>
-          </article>
-        }
-      </div>
+        <p class="mt-5 line-clamp-4 text-sm leading-6 text-gray-600">
+          {{ analysis.summary || 'Resume analysis completed.' }}
+        </p>
+
+        <div class="mt-5">
+          <p class="text-xs font-semibold uppercase tracking-wider text-gray-400">
+            Matching skills
+          </p>
+          <div class="mt-3 flex flex-wrap gap-2">
+            @for (skill of (analysis.matchingSkills || []).slice(0, 4); track skill) {
+            <span class="rounded-lg bg-violet-50 px-2.5 py-1.5 text-xs font-medium text-violet-700">
+              {{ skill }}
+            </span>
+            }
+            @if ((analysis.matchingSkills || []).length === 0) {
+            <span class="text-sm text-gray-400">No matching skills listed</span>
+            }
+            @if ((analysis.matchingSkills || []).length > 4) {
+            <span class="rounded-lg bg-gray-100 px-2.5 py-1.5 text-xs text-gray-600">
+              +{{ analysis.matchingSkills.length - 4 }} more
+            </span>
+            }
+          </div>
+        </div>
+
+        <div class="mt-auto pt-6">
+          <button type="button" (click)="openAnalysis(analysis)"
+            class="w-full rounded-xl border border-gray-200 px-4 py-3 font-semibold text-gray-700 transition hover:border-violet-600 hover:bg-violet-50 hover:text-violet-700">
+            View analysis →
+          </button>
+        </div>
+      </article>
+      }
+    </div>
     }
   </main>
 </div>
